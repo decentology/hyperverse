@@ -14,17 +14,20 @@ function Provider(props) {
   if (hyperverse) {
     if (hyperverse.blockchain === 'Flow') {
       let children = props.children;
-      for (const module of hyperverse.modules) {
-        children = React.createElement(
-          module.package.Provider,
-          {
-            blockchain: hyperverse.blockchain,
-            network: hyperverse.network,
-            tenantID: module.tenantID
-          },
-          children
-        );
+      if (hyperverse.modules) {
+        for (const module of hyperverse.modules) {
+          children = React.createElement(
+            module.package.Provider,
+            {
+              blockchain: hyperverse.blockchain,
+              network: hyperverse.network,
+              tenantID: module.tenantID
+            },
+            children
+          );
+        }
       }
+      
       return (
         <Context.Provider value={hyperverse}>
           <Flow.Provider>
